@@ -4,37 +4,54 @@ Teaching material I designed as a **lecturer and teaching assistant** for IFT339
 
 The material follows one rule: a student should be able to **predict** what an algorithm will do, **test** the prediction on a simulation, and then **derive** the result step by step with real numbers.
 
-**[Open the interactive demos](https://yanis-bencheikh.github.io/ML_Course_Bencheikh_Mila_UdeM_ift6390/)** · Rendered notebooks: **[PyTorch](https://yanis-bencheikh.github.io/ML_Course_Bencheikh_Mila_UdeM_ift6390/notebooks/lab8_pytorch.html)** and **[linear classifiers](https://yanis-bencheikh.github.io/ML_Course_Bencheikh_Mila_UdeM_ift6390/notebooks/lab4_linear_classifiers.html)** · [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/yanis-bencheikh/ML_Course_Bencheikh_Mila_UdeM_ift6390/blob/main/notebooks/lab8_pytorch/IFT3395_Lab8_PyTorch.ipynb)
+**[Open the interactive demos](https://yanis-bencheikh.github.io/ML_Course_Bencheikh_Mila_UdeM_ift6390/docs/)** · Rendered notebooks: **[PyTorch](https://yanis-bencheikh.github.io/ML_Course_Bencheikh_Mila_UdeM_ift6390/docs/notebooks/lab8_pytorch.html)** and **[linear classifiers](https://yanis-bencheikh.github.io/ML_Course_Bencheikh_Mila_UdeM_ift6390/docs/notebooks/lab4_linear_classifiers.html)** · [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/yanis-bencheikh/ML_Course_Bencheikh_Mila_UdeM_ift6390/blob/main/notebooks/lab8_pytorch/IFT3395_Lab8_PyTorch.ipynb)
 
 <p align="center">
-  <a href="https://yanis-bencheikh.github.io/ML_Course_Bencheikh_Mila_UdeM_ift6390/lab4.html#descent"><img src="assets/gifs/linear_classifiers.gif" alt="Gradient descent on four losses: four decision boundaries move over 100 iterations" width="100%"></a>
+  <a href="https://yanis-bencheikh.github.io/ML_Course_Bencheikh_Mila_UdeM_ift6390/docs/lab4_3d.html#ball"><img src="assets/gifs/descent_3d_ball.gif" alt="The 3D tool: a gold ball goes down the surface of the objective, one iteration at a time, while the decision boundary moves on the flowers" width="86%"></a>
 </p>
 <p align="center">
-  <a href="https://yanis-bencheikh.github.io/ML_Course_Bencheikh_Mila_UdeM_ift6390/lab8.html#xor"><img src="assets/gifs/xor_relu.gif" alt="XOR: a network without activation stays linear, the same network with ReLU bends its boundary" width="72%"></a>
+  <a href="https://yanis-bencheikh.github.io/ML_Course_Bencheikh_Mila_UdeM_ift6390/docs/lab4.html#descent"><img src="assets/gifs/linear_classifiers.gif" alt="Gradient descent on four losses: four decision boundaries move over 100 iterations" width="100%"></a>
+</p>
+<p align="center">
+  <a href="https://yanis-bencheikh.github.io/ML_Course_Bencheikh_Mila_UdeM_ift6390/docs/lab8.html#xor"><img src="assets/gifs/xor_relu.gif" alt="XOR: a network without activation stays linear, the same network with ReLU bends its boundary" width="72%"></a>
 </p>
 
-The two animations above are previews. Click either one to open the live version, where the sliders are yours.
+The animations above are previews. Click any of them to open the live version, where the sliders are yours and the 3D scene can be rotated.
 
 ## Contents
 
 | Lab | Topic | Material here | Live |
 |---|---|---|---|
-| Lab 8, 17 Nov 2026 | Introduction to PyTorch: backpropagation by hand, tensors, autograd, `optim`, `nn` | [Notebook](notebooks/lab8_pytorch/IFT3395_Lab8_PyTorch.ipynb) (370 cells, 61 figures, 5 slider demos), 2 browser simulations | [Demos](https://yanis-bencheikh.github.io/ML_Course_Bencheikh_Mila_UdeM_ift6390/lab8.html) · [Notebook](https://yanis-bencheikh.github.io/ML_Course_Bencheikh_Mila_UdeM_ift6390/notebooks/lab8_pytorch.html) |
-| Lab 4, 27 Oct 2026 | Linear classifiers and gradient descent: linear regression, perceptron, SVM, logistic regression | [Notebook](notebooks/lab4_linear_classifiers/IFT3395_Lab4_Classifieurs_Lineaires.ipynb) (587 cells, 36 figures, 13 slider demos), 3 browser simulations | [Demos](https://yanis-bencheikh.github.io/ML_Course_Bencheikh_Mila_UdeM_ift6390/lab4.html) · [Notebook](https://yanis-bencheikh.github.io/ML_Course_Bencheikh_Mila_UdeM_ift6390/notebooks/lab4_linear_classifiers.html) |
+| Lab 8, 17 Nov 2026 | Introduction to PyTorch: backpropagation by hand, tensors, autograd, `optim`, `nn` | [Notebook](notebooks/lab8_pytorch/IFT3395_Lab8_PyTorch.ipynb) (370 cells, 61 figures, 5 slider demos), 2 browser simulations | [Demos](https://yanis-bencheikh.github.io/ML_Course_Bencheikh_Mila_UdeM_ift6390/docs/lab8.html) · [Notebook](https://yanis-bencheikh.github.io/ML_Course_Bencheikh_Mila_UdeM_ift6390/docs/notebooks/lab8_pytorch.html) |
+| Lab 4, 27 Oct 2026 | Linear classifiers and gradient descent: linear regression, perceptron, SVM, logistic regression | [Notebook](notebooks/lab4_linear_classifiers/IFT3395_Lab4_Classifieurs_Lineaires.ipynb) (587 cells, 36 figures, 13 slider demos), the 3D tool, 3 browser simulations | [3D tool](https://yanis-bencheikh.github.io/ML_Course_Bencheikh_Mila_UdeM_ift6390/docs/lab4_3d.html) · [Demos](https://yanis-bencheikh.github.io/ML_Course_Bencheikh_Mila_UdeM_ift6390/docs/lab4.html) · [Notebook](https://yanis-bencheikh.github.io/ML_Course_Bencheikh_Mila_UdeM_ift6390/docs/notebooks/lab4_linear_classifiers.html) |
 
 The notebooks are written in French, the language of the section. The browser simulations and this page are in English.
 
+## The 3D tool: gradient descent as a ball on a surface
+
+This is the visualisation we used in class to understand gradient descent, lifted unchanged from the lab notebook into a web page: **[open it live](https://yanis-bencheikh.github.io/ML_Course_Bencheikh_Mila_UdeM_ift6390/docs/lab4_3d.html)**. The objective *L(w₀, w₁)* is drawn as a surface. The gold ball is the current weight vector, the gold star the minimum, and the circles on the floor are the level lines. Each move of the iteration slider applies **w** ← **w** − η∇L(**w**) once, and the panel on the right shows the decision boundary that the ball's position draws on the flowers.
+
+| Step η = 0.5: the ball slows down as the slope flattens | Step η = 0.9: the ball overshoots the valley and zigzags |
+|---|---|
+| <a href="https://yanis-bencheikh.github.io/ML_Course_Bencheikh_Mila_UdeM_ift6390/docs/lab4_3d.html#ball"><img src="assets/gifs/descent_3d_ball.gif" alt="Descent with a moderate step on the 3D surface"></a> | <a href="https://yanis-bencheikh.github.io/ML_Course_Bencheikh_Mila_UdeM_ift6390/docs/lab4_3d.html#ball"><img src="assets/gifs/descent_3d_large_step.gif" alt="Descent with a large step: the path zigzags across the valley"></a> |
+
+The same page holds two other 3D scenes from the lab: the score of a linear classifier as a tilted plane, and the perceptron correcting one point at a time, where each correction pivots the plane.
+
+<p align="center">
+  <a href="https://yanis-bencheikh.github.io/ML_Course_Bencheikh_Mila_UdeM_ift6390/docs/lab4_3d.html#perceptron"><img src="assets/gifs/perceptron_3d.gif" alt="The perceptron in 3D: a misclassified point is found, a vector is added to w, the plane pivots" width="78%"></a>
+</p>
+
 ## Interactive simulations
 
-GitHub does not run notebook widgets, so the key simulations of each lab are rebuilt as dependency-free web pages (plain JavaScript and canvas, served by GitHub Pages from [`docs/`](docs)).
+GitHub does not run notebook widgets, so besides the 3D tool, the key simulations of each lab are rebuilt as dependency-free web pages (plain JavaScript and canvas, served by GitHub Pages from [`docs/`](docs)).
 
 | Simulation | What the student manipulates | What it shows |
 |---|---|---|
-| [Place the boundary by hand](https://yanis-bencheikh.github.io/ML_Course_Bencheikh_Mila_UdeM_ift6390/lab4.html#boundary) | Direction, scale and offset of **w** | The 0-1 error ignores the scale of **w**; the four surrogate losses do not |
-| [One flower, four losses](https://yanis-bencheikh.github.io/ML_Course_Bencheikh_Mila_UdeM_ift6390/lab4.html#losses) | The margin *m = y·z* of one flower | Each loss and its slope ℓ′(m), the force with which the flower pulls on **w** |
-| [Gradient descent, one iteration at a time](https://yanis-bencheikh.github.io/ML_Course_Bencheikh_Mila_UdeM_ift6390/lab4.html#descent) | Loss, step η, regularisation λ, iteration *t* | The path on the map of *L(w)*, the zigzag and the divergence when η is too large |
-| [Backpropagation by hand](https://yanis-bencheikh.github.io/ML_Course_Bencheikh_Mila_UdeM_ift6390/lab8.html#backprop) | Four weights, the input and the target | Forward values, the five steps of the chain rule, a finite-difference check, inactive ReLU neurons |
-| [Why a network needs a non-linearity](https://yanis-bencheikh.github.io/ML_Course_Bencheikh_Mila_UdeM_ift6390/lab8.html#xor) | Activation, width, learning rate | A network trained live in the browser on XOR, with the backward pass written by hand |
+| [Place the boundary by hand](https://yanis-bencheikh.github.io/ML_Course_Bencheikh_Mila_UdeM_ift6390/docs/lab4.html#boundary) | Direction, scale and offset of **w** | The 0-1 error ignores the scale of **w**; the four surrogate losses do not |
+| [One flower, four losses](https://yanis-bencheikh.github.io/ML_Course_Bencheikh_Mila_UdeM_ift6390/docs/lab4.html#losses) | The margin *m = y·z* of one flower | Each loss and its slope ℓ′(m), the force with which the flower pulls on **w** |
+| [Gradient descent, one iteration at a time](https://yanis-bencheikh.github.io/ML_Course_Bencheikh_Mila_UdeM_ift6390/docs/lab4.html#descent) | Loss, step η, regularisation λ, iteration *t* | The path on the map of *L(w)*, the zigzag and the divergence when η is too large |
+| [Backpropagation by hand](https://yanis-bencheikh.github.io/ML_Course_Bencheikh_Mila_UdeM_ift6390/docs/lab8.html#backprop) | Four weights, the input and the target | Forward values, the five steps of the chain rule, a finite-difference check, inactive ReLU neurons |
+| [Why a network needs a non-linearity](https://yanis-bencheikh.github.io/ML_Course_Bencheikh_Mila_UdeM_ift6390/docs/lab8.html#xor) | Activation, width, learning rate | A network trained live in the browser on XOR, with the backward pass written by hand |
 
 Every simulation uses the same ritual as the labs: a prediction to make first, the simulation, then the answer.
 
@@ -72,7 +89,7 @@ Four classifiers are presented as one model with four losses. Each loss is a fun
 | <img src="assets/figures/lab4_descent_on_the_map.png" alt="A descent path on the level lines of the objective, next to the boundary it produces"> | <img src="assets/figures/lab4_svm_margin.png" alt="The SVM margin band and its support vectors for two values of the regularisation"> |
 | The same descent seen on the map of the objective and on the flowers. | The SVM margin band and its support vectors as λ changes. |
 
-All the code is provided and commented line by line: the lab is meant to be read, predicted and manipulated, not filled in. [Read the rendered notebook](https://yanis-bencheikh.github.io/ML_Course_Bencheikh_Mila_UdeM_ift6390/notebooks/lab4_linear_classifiers.html) or [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/yanis-bencheikh/ML_Course_Bencheikh_Mila_UdeM_ift6390/blob/main/notebooks/lab4_linear_classifiers/IFT3395_Lab4_Classifieurs_Lineaires.ipynb)
+All the code is provided and commented line by line: the lab is meant to be read, predicted and manipulated, not filled in. [Read the rendered notebook](https://yanis-bencheikh.github.io/ML_Course_Bencheikh_Mila_UdeM_ift6390/docs/notebooks/lab4_linear_classifiers.html) or [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/yanis-bencheikh/ML_Course_Bencheikh_Mila_UdeM_ift6390/blob/main/notebooks/lab4_linear_classifiers/IFT3395_Lab4_Classifieurs_Lineaires.ipynb)
 
 Outline of the notebook:
 
@@ -107,6 +124,8 @@ docs/                       GitHub Pages site: interactive simulations and the r
 docs/assets/ml.js           the mathematics of the simulations (losses, gradients, backpropagation, a small MLP)
 scripts/test_ml.js          checks that mathematics against the numbers worked out by hand in the labs
 scripts/make_assets.py      regenerates the data file and the two animations of this page
+scripts/build_3d_page.py    lifts the 3D demos out of the notebook into docs/lab4_3d.html
+scripts/capture_3d_gifs.py  records the 3D animations of this page from the live tool
 assets/                     figures and animations used in this README
 ```
 
