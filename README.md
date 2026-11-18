@@ -4,7 +4,7 @@ Teaching material I designed as a **lecturer and teaching assistant** for IFT339
 
 The material follows one rule: a student should be able to **predict** what an algorithm will do, **test** the prediction on a simulation, and then **derive** the result step by step with real numbers.
 
-**[Open the interactive demos](https://yanis-bencheikh.github.io/ML_Course_Bencheikh_Mila_UdeM_ift6390/)** · **[Read the PyTorch notebook, rendered](https://yanis-bencheikh.github.io/ML_Course_Bencheikh_Mila_UdeM_ift6390/notebooks/lab8_pytorch.html)** · [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/yanis-bencheikh/ML_Course_Bencheikh_Mila_UdeM_ift6390/blob/main/notebooks/lab8_pytorch/IFT3395_Lab8_PyTorch.ipynb)
+**[Open the interactive demos](https://yanis-bencheikh.github.io/ML_Course_Bencheikh_Mila_UdeM_ift6390/)** · Rendered notebooks: **[PyTorch](https://yanis-bencheikh.github.io/ML_Course_Bencheikh_Mila_UdeM_ift6390/notebooks/lab8_pytorch.html)** and **[linear classifiers](https://yanis-bencheikh.github.io/ML_Course_Bencheikh_Mila_UdeM_ift6390/notebooks/lab4_linear_classifiers.html)** · [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/yanis-bencheikh/ML_Course_Bencheikh_Mila_UdeM_ift6390/blob/main/notebooks/lab8_pytorch/IFT3395_Lab8_PyTorch.ipynb)
 
 <p align="center">
   <a href="https://yanis-bencheikh.github.io/ML_Course_Bencheikh_Mila_UdeM_ift6390/lab4.html#descent"><img src="assets/gifs/linear_classifiers.gif" alt="Gradient descent on four losses: four decision boundaries move over 100 iterations" width="100%"></a>
@@ -20,7 +20,7 @@ The two animations above are previews. Click either one to open the live version
 | Lab | Topic | Material here | Live |
 |---|---|---|---|
 | Lab 8, 17 Nov 2026 | Introduction to PyTorch: backpropagation by hand, tensors, autograd, `optim`, `nn` | [Notebook](notebooks/lab8_pytorch/IFT3395_Lab8_PyTorch.ipynb) (370 cells, 61 figures, 5 slider demos), 2 browser simulations | [Demos](https://yanis-bencheikh.github.io/ML_Course_Bencheikh_Mila_UdeM_ift6390/lab8.html) · [Notebook](https://yanis-bencheikh.github.io/ML_Course_Bencheikh_Mila_UdeM_ift6390/notebooks/lab8_pytorch.html) |
-| Lab 4, 27 Oct 2026 | Linear classifiers and gradient descent: linear regression, perceptron, SVM, logistic regression | 3 browser simulations, selected figures | [Demos](https://yanis-bencheikh.github.io/ML_Course_Bencheikh_Mila_UdeM_ift6390/lab4.html) |
+| Lab 4, 27 Oct 2026 | Linear classifiers and gradient descent: linear regression, perceptron, SVM, logistic regression | [Notebook](notebooks/lab4_linear_classifiers/IFT3395_Lab4_Classifieurs_Lineaires.ipynb) (587 cells, 36 figures, 13 slider demos), 3 browser simulations | [Demos](https://yanis-bencheikh.github.io/ML_Course_Bencheikh_Mila_UdeM_ift6390/lab4.html) · [Notebook](https://yanis-bencheikh.github.io/ML_Course_Bencheikh_Mila_UdeM_ift6390/notebooks/lab4_linear_classifiers.html) |
 
 The notebooks are written in French, the language of the section. The browser simulations and this page are in English.
 
@@ -72,7 +72,21 @@ Four classifiers are presented as one model with four losses. Each loss is a fun
 | <img src="assets/figures/lab4_descent_on_the_map.png" alt="A descent path on the level lines of the objective, next to the boundary it produces"> | <img src="assets/figures/lab4_svm_margin.png" alt="The SVM margin band and its support vectors for two values of the regularisation"> |
 | The same descent seen on the map of the objective and on the flowers. | The SVM margin band and its support vectors as λ changes. |
 
-The lab notebook (French, 13 slider demos) is not published here yet: it contains worked code for cells that students write themselves in a graded assignment.
+All the code is provided and commented line by line: the lab is meant to be read, predicted and manipulated, not filled in. [Read the rendered notebook](https://yanis-bencheikh.github.io/ML_Course_Bencheikh_Mila_UdeM_ift6390/notebooks/lab4_linear_classifiers.html) or [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/yanis-bencheikh/ML_Course_Bencheikh_Mila_UdeM_ift6390/blob/main/notebooks/lab4_linear_classifiers/IFT3395_Lab4_Classifieurs_Lineaires.ipynb)
+
+Outline of the notebook:
+
+0. The problem, the model in one image, the score and the margin
+1. The flowers: data, standardisation, a boundary placed by hand
+2. Why the error rate is not what gets minimised
+3. The four surrogate losses, one at a time
+4. The gradient, one link of the chain at a time
+5. Gradient descent and the step η, written once in a parent class
+6. Linear regression
+7. Perceptron
+8. SVM: the hinge loss, the margin band, the support vectors
+9. Logistic regression and its probabilistic reading
+10. Recap, then a bonus on mini-batch stochastic descent
 
 ## How the material is built
 
@@ -88,7 +102,8 @@ The lab notebook (French, 13 slider demos) is not published here yet: it contain
 
 ```
 notebooks/lab8_pytorch/     the PyTorch lab (Jupyter / Colab, French)
-docs/                       GitHub Pages site: interactive simulations and the rendered notebook
+notebooks/lab4_linear_classifiers/   the linear classifiers lab (Jupyter / Colab, French)
+docs/                       GitHub Pages site: interactive simulations and the rendered notebooks
 docs/assets/ml.js           the mathematics of the simulations (losses, gradients, backpropagation, a small MLP)
 scripts/test_ml.js          checks that mathematics against the numbers worked out by hand in the labs
 scripts/make_assets.py      regenerates the data file and the two animations of this page
@@ -109,7 +124,7 @@ pip install -r requirements.txt
 python scripts/make_assets.py
 ```
 
-The notebook runs in Colab with the badge at the top of this page, or locally with Jupyter after `pip install -r requirements.txt`. It was tested on CPU.
+The notebooks run in Colab with the badges on this page, or locally with Jupyter after `pip install -r requirements.txt`. They were tested on CPU.
 
 ## Credits
 
