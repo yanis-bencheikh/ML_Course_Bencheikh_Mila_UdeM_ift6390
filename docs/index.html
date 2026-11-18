@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>IFT3395 / IFT6390 · Teaching portfolio · Yanis Bencheikh</title>
+<meta name="description" content="Interactive teaching material for Fundamentals of Machine Learning (IFT3395 / IFT6390, Université de Montréal, Fall 2026) by Yanis Bencheikh.">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header class="top"><nav>
+  <a class="brand" href="index.html" aria-current="page">IFT3395 / IFT6390 · Teaching portfolio</a>
+  <a href="lab4.html">Linear classifiers</a>
+  <a href="lab8.html">PyTorch and backpropagation</a>
+  <a href="https://github.com/yanis-bencheikh/ML_Course_Bencheikh_Mila_UdeM_ift6390">GitHub</a>
+</nav></header>
+<main>
+  <div class="kicker">Université de Montréal · Mila · Fall 2026</div>
+  <h1>Fundamentals of Machine Learning, taught with simulations</h1>
+  <p class="lede">Teaching material by Yanis Bencheikh, lecturer and teaching assistant for IFT3395 / IFT6390. Every idea is first predicted by the student, then tested on a simulation, then derived step by step with real numbers.</p>
+
+  <div class="cards">
+    <div class="card">
+      <div class="kicker">Lab 8 · 17 November 2026</div>
+      <h2>PyTorch and backpropagation</h2>
+      <p>Backpropagation by hand on a four-weight network, then the same computation with autograd, optimisers and <code>nn</code> layers.</p>
+      <ul>
+        <li><a href="lab8.html#backprop">Backpropagation by hand, on four weights</a></li>
+        <li><a href="lab8.html#xor">Why a network needs a non-linearity (XOR, trained in the browser)</a></li>
+      </ul>
+      <a class="go" href="notebooks/lab8_pytorch.html">Read the full notebook (French, 370 cells) →</a>
+    </div>
+    <div class="card">
+      <div class="kicker">Lab 4 · 27 October 2026</div>
+      <h2>Linear classifiers and gradient descent</h2>
+      <p>Four classical losses, one gradient formula, and why the same flowers give four different decision boundaries.</p>
+      <ul>
+        <li><a href="lab4.html#boundary">Place the boundary by hand</a></li>
+        <li><a href="lab4.html#losses">One flower, four losses</a></li>
+        <li><a href="lab4.html#descent">Gradient descent, one iteration at a time</a></li>
+      </ul>
+      <a class="go" href="lab4.html">Open the three simulations →</a>
+    </div>
+  </div>
+
+  <section class="demo">
+    <h2>How the material is built</h2>
+    <p><b>Predict, then check.</b> Each simulation is preceded by a question the student answers before touching a slider, and followed by the answer.</p>
+    <p><b>One idea at a time.</b> One sentence per cell in large type, at most one paragraph before the next figure or code cell.</p>
+    <p><b>No skipped step.</b> Each derivative is obtained line by line, each line with its justification, first for a single weight with real numbers, then in matrix form.</p>
+    <p><b>Checked by execution.</b> Every notebook runs from top to bottom without error, every gradient is compared with a finite difference, and the mathematics of these pages is covered by an automated test.</p>
+  </section>
+</main>
+<footer>Yanis Bencheikh · Mila and Université de Montréal. Course taught by Ioannis Mitliagkas and Dhanya Sridhar; the labs extend the official course labs.</footer>
+</body>
+</html>

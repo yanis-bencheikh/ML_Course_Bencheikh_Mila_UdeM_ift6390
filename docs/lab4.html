@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Linear classifiers and gradient descent: interactive demos</title>
+<meta name="description" content="Interactive companions to the linear classifiers lab of IFT3395/IFT6390 (Université de Montréal): decision boundary, four surrogate losses, gradient descent.">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header class="top"><nav>
+  <a class="brand" href="index.html">IFT3395 / IFT6390 · Teaching portfolio</a>
+  <a href="lab4.html" aria-current="page">Linear classifiers</a>
+  <a href="lab8.html">PyTorch and backpropagation</a>
+  <a href="https://github.com/yanis-bencheikh/ML_Course_Bencheikh_Mila_UdeM_ift6390">GitHub</a>
+</nav></header>
+<main>
+  <div class="kicker">Lab 4 · 27 October 2026</div>
+  <h1>Linear classifiers and gradient descent</h1>
+  <p class="lede">Three simulations from the lab, rebuilt to run in the browser. Each one follows the ritual used in class: predict first, move the slider, then compare.</p>
+
+  <section class="demo" id="boundary">
+    <div class="kicker">Demo 1</div>
+    <h2>Place the boundary by hand</h2>
+    <p>A linear classifier computes a score z = w₀x₀ + w₁x₁ + b and predicts the sign of z. The 100 flowers are iris setosa (y = −1) and versicolor (y = +1), described by standardised petal length and width.</p>
+    <div class="predict"><b>Predict first.</b> If you double the scale of w (the two weights and the bias together), which numbers in the table change: the error rate, the four losses, or both?</div>
+    <div class="controls">
+      <div class="control"><label for="b-angle">Direction of w <output for="b-angle"></output></label><input id="b-angle" type="range" min="0" max="360" step="1" value="45"></div>
+      <div class="control"><label for="b-norm">Scale: multiplies (w₀, w₁, b) <output for="b-norm"></output></label><input id="b-norm" type="range" min="0.2" max="4" step="0.1" value="1.4"></div>
+      <div class="control"><label for="b-bias">Offset b ÷ ‖(w₀, w₁)‖ <output for="b-bias"></output></label><input id="b-bias" type="range" min="-2.5" max="2.5" step="0.05" value="-0.3"></div>
+    </div>
+    <div class="stage">
+      <figure>
+        <canvas class="plot" id="b-plot" role="img" aria-label="Scatter plot of the flowers with the decision boundary"></canvas>
+        <div class="tip" id="b-tip"></div>
+        <div class="legend">
+          <span><span class="sw" style="background:var(--blue)"></span>versicolor, y = +1</span>
+          <span><span class="sw" style="background:var(--green)"></span>setosa, y = −1</span>
+          <span><span class="sw" style="background:var(--red)"></span>boundary z = 0, misclassified flowers circled</span>
+        </div>
+        <figcaption>Hover a flower to read its score z and its margin m = y·z.</figcaption>
+      </figure>
+      <div>
+        <div class="stat-row">
+          <div class="stat"><div class="v" id="b-err">0</div><div class="k">misclassified out of 100</div></div>
+          <div class="stat"><div class="v" id="b-w">w</div><div class="k">w = (w₀, w₁, b)</div></div>
+        </div>
+        <table class="read" id="b-table">
+          <thead><tr><th>Quantity</th><th>Formula for one flower</th><th>Mean over the 100 flowers</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+    <details class="answer"><summary>Compare with the answer</summary>
+      <p>Only the losses change. Multiplying (w₀, w₁, b) by 2 multiplies every score by 2 and leaves its sign alone: the boundary z = 0 does not move, so the error rate is the same. The four losses read the margin itself, which doubles: this is why minimising a loss also chooses a scale, and why the lab adds the term λ/2 ‖w‖² to control it.</p>
+    </details>
+  </section>
+
+  <section class="demo" id="losses">
+    <div class="kicker">Demo 2</div>
+    <h2>One flower, four losses</h2>
+    <p>Every loss of the lab is a function of a single number, the margin m = y·z: positive when the flower is on the right side, larger when it is far from the boundary. Its slope ℓ′(m) is the force with which that flower pulls on w, since the gradient for one flower is ℓ′(m)·y·x.</p>
+    <div class="predict"><b>Predict first.</b> A flower is very well classified, at m = 2.5. Which of the four losses still pushes w, and in which direction?</div>
+    <div class="controls">
+      <div class="control"><label for="l-m">Margin of the flower, m <output for="l-m"></output></label><input id="l-m" type="range" min="-3" max="3" step="0.05" value="-0.7"></div>
+    </div>
+    <div class="stage">
+      <figure>
+        <canvas class="plot wide" id="l-plot" role="img" aria-label="The four losses as functions of the margin"></canvas>
+        <figcaption>Drag on the plot to move the flower. Grey step: the 0-1 error, 1 when m is negative.</figcaption>
+      </figure>
+      <div>
+        <table class="read" id="l-table">
+          <thead><tr><th>Loss</th><th>Formula ℓ(m)</th><th>Loss</th><th>Slope ℓ′(m)</th></tr></thead>
+          <tbody></tbody>
+        </table>
+        <p id="l-note" style="color:var(--ink-2);font-size:15px;margin:12px 0 0"></p>
+      </div>
+    </div>
+    <details class="answer"><summary>Compare with the answer</summary>
+      <p>Linear regression is the only one with a positive slope at m = 2.5 (slope m − 1 = 1.5): it pulls the boundary back towards a flower that is already correct, because it wants every margin to equal exactly 1. The perceptron and the SVM have slope 0 there, and the logistic slope is negative but nearly 0 (about −0.08).</p>
+    </details>
+  </section>
+
+  <section class="demo" id="descent">
+    <div class="kicker">Demo 3</div>
+    <h2>Gradient descent, one iteration at a time</h2>
+    <p>The objective is L(w) = mean of ℓ(mᵢ) + λ/2 ‖w‖². To draw it as a map, this demo keeps two weights (w₀, w₁) and no bias. Each iteration applies the same rule, w ← w − η ∇L(w), starting from w = (−3, 3), the starting point used in the lab.</p>
+    <div class="predict"><b>Predict first.</b> With linear regression, raise the step η from 0.2 to 1.5, then to 1.9. Does the path reach the minimum faster, or does something else happen?</div>
+    <div class="controls">
+      <div class="control"><label for="d-loss">Loss</label><select id="d-loss">
+        <option value="linear">Linear regression</option><option value="perceptron">Perceptron</option><option value="svm">SVM (hinge)</option><option value="logistic">Logistic regression</option></select></div>
+      <div class="control"><label for="d-eta">Step η <output for="d-eta"></output></label><input id="d-eta" type="range" min="0.02" max="2.2" step="0.02" value="0.2"></div>
+      <div class="control"><label for="d-lam">Regularisation λ <output for="d-lam"></output></label><input id="d-lam" type="range" min="0" max="1" step="0.01" value="0.1"></div>
+      <div class="control"><label for="d-t">Iteration t <output for="d-t"></output></label><input id="d-t" type="range" min="0" max="100" step="1" value="0"></div>
+    </div>
+    <div class="buttons"><button class="primary" id="d-play">Play</button><button id="d-reset">Back to t = 0</button></div>
+    <div class="stage">
+      <figure>
+        <canvas class="plot" id="d-map" role="img" aria-label="Map of the objective with the descent path"></canvas>
+        <div class="tip" id="d-tip"></div>
+        <figcaption>Map of L(w₀, w₁): darker means lower. Square: start. Line: the path up to iteration t. Hover to read L.</figcaption>
+      </figure>
+      <figure>
+        <canvas class="plot" id="d-data" role="img" aria-label="The flowers with the boundary at iteration t"></canvas>
+        <figcaption>The same iteration seen on the flowers: the boundary w₀x₀ + w₁x₁ = 0.</figcaption>
+      </figure>
+    </div>
+    <div class="stat-row" style="margin-top:16px">
+      <div class="stat"><div class="v" id="d-L">0</div><div class="k">objective L(w) at iteration t</div></div>
+      <div class="stat"><div class="v" id="d-E">0</div><div class="k">misclassified out of 100</div></div>
+      <div class="stat"><div class="v" id="d-W">w</div><div class="k">w = (w₀, w₁)</div></div>
+    </div>
+    <details class="answer"><summary>Compare with the answer</summary>
+      <p>A larger step first helps, then the path overshoots the valley and zigzags across it. Past a threshold the iterates move away from the minimum at every step and the objective grows without bound: the descent diverges. For a quadratic objective the threshold is 2 divided by the largest curvature, which is why the lab asks for the step to be tuned and not simply made large.</p>
+    </details>
+  </section>
+</main>
+<footer>Yanis Bencheikh · Mila and Université de Montréal · IFT3395 / IFT6390, Fall 2026. Data: Fisher (1936), iris.</footer>
+
+<script src="assets/iris.js"></script>
+<script src="assets/ml.js"></script>
+<script src="assets/plot.js"></script>
+<script>
+(function () {
+  const { Plot, css, hex, bindRange, tip } = Viz;
+  const X2 = IRIS.x, Y = IRIS.y, N = Y.length;
+  const X3 = X2.map((r) => [r[0], r[1], 1]);
+  const f2 = (v) => (Math.abs(v) < 0.005 ? 0 : v).toFixed(2).replace('-', '−');
+  const KEYS = ['linear', 'perceptron', 'svm', 'logistic'];
+  const LIM = 2.6;
+
+  function drawFlowers(plot, w, markErrors) {
+    const blue = hex(css('--blue')), green = hex(css('--green'));
+    plot.field(160, (x, y) => { const z = w[0] * x + w[1] * y + w[2]; const c = z >= 0 ? blue : green; return [c[0], c[1], c[2], 28]; });
+    plot.axes();
+    // boundary w0 x + w1 y + b = 0
+    const pts = Math.abs(w[1]) > Math.abs(w[0])
+      ? [[-LIM, -(w[2] - w[0] * LIM) / w[1]], [LIM, -(w[2] + w[0] * LIM) / w[1]]]
+      : [[-(w[2] - w[1] * LIM) / w[0], -LIM], [-(w[2] + w[1] * LIM) / w[0], LIM]];
+    if (Math.hypot(w[0], w[1]) > 1e-9) plot.line(pts, css('--red'), 2.5);
+    plot.clip(() => {
+      for (let i = 0; i < N; i++) {
+        const wrong = Y[i] * (w[0] * X2[i][0] + w[1] * X2[i][1] + w[2]) < 0;
+        plot.dot(X2[i][0], X2[i][1], css(Y[i] > 0 ? '--blue' : '--green'), 4.5, markErrors && wrong ? css('--red') : css('--panel'));
+      }
+    });
+  }
+
+  // ------------------------------------------------------------------ Demo 1
+  const bPlot = new Plot(document.getElementById('b-plot'), { xmin: -LIM, xmax: LIM, ymin: -LIM, ymax: LIM, xlabel: 'x₀ : petal length (standardised)', ylabel: 'x₁ : petal width (standardised)' });
+  const bTip = document.getElementById('b-tip');
+  let bw = [1, 1, -0.4];
+  function boundary() {
+    const a = +document.getElementById('b-angle').value * Math.PI / 180, n = +document.getElementById('b-norm').value;
+    bw = [n * Math.cos(a), n * Math.sin(a), n * +document.getElementById('b-bias').value];
+    bPlot.clear(); drawFlowers(bPlot, bw, true);
+    // arrow for w, from the point of the boundary closest to the origin
+    const n2 = bw[0] * bw[0] + bw[1] * bw[1], ox = -bw[2] * bw[0] / n2, oy = -bw[2] * bw[1] / n2, u = [bw[0] / Math.sqrt(n2), bw[1] / Math.sqrt(n2)];
+    bPlot.line([[ox, oy], [ox + 0.8 * u[0], oy + 0.8 * u[1]]], css('--ink'), 2.5);
+    bPlot.clip(() => bPlot.label('w', ox + 0.98 * u[0], oy + 0.98 * u[1], css('--ink'), 'center'));
+    const m = X3.map((r, i) => Y[i] * (bw[0] * r[0] + bw[1] * r[1] + bw[2]));
+    const mean = (f) => m.reduce((s, v) => s + f(v), 0) / N;
+    document.getElementById('b-err').textContent = m.filter((v) => v < 0).length;
+    document.getElementById('b-w').textContent = '(' + bw.map(f2).join(', ') + ')';
+    const rows = [['<span class="sw" style="background:var(--ink-3)"></span>0-1 error', '1 if m < 0, else 0', f2(mean(ML.zeroOne))]]
+      .concat(KEYS.map((k) => ['<span class="sw" style="background:var(' + ML.LOSSES[k].colour + ')"></span>' + ML.LOSSES[k].name, ML.LOSSES[k].formula, f2(mean(ML.LOSSES[k].loss))]));
+    document.querySelector('#b-table tbody').innerHTML = rows.map((r) => '<tr><td>' + r.join('</td><td>') + '</td></tr>').join('');
+  }
+  ['b-angle', 'b-norm', 'b-bias'].forEach((id) => bindRange(id, boundary, id === 'b-angle' ? (v) => v + '°' : f2));
+  bPlot.pointer((x, y, px, py) => {
+    let best = -1, bd = 0.02;
+    for (let i = 0; i < N; i++) { const d = (X2[i][0] - x) ** 2 + (X2[i][1] - y) ** 2; if (d < bd) { bd = d; best = i; } }
+    if (best < 0) return tip(bTip, null);
+    const z = bw[0] * X2[best][0] + bw[1] * X2[best][1] + bw[2];
+    tip(bTip, (Y[best] > 0 ? 'versicolor, y = +1' : 'setosa, y = −1') + '<br>score z = ' + f2(z) + ' · margin m = ' + f2(Y[best] * z) + (Y[best] * z < 0 ? ' · misclassified' : ''), px, py);
+  }, () => tip(bTip, null));
+
+  // ------------------------------------------------------------------ Demo 2
+  const lPlot = new Plot(document.getElementById('l-plot'), { xmin: -3, xmax: 3, ymin: -0.2, ymax: 4.6, xlabel: 'margin m = y·z', ylabel: 'loss of one flower' });
+  const lM = bindRange('l-m', losses, f2);
+  function losses() {
+    const m = +lM.value;
+    lPlot.clear(); lPlot.axes();
+    lPlot.line([[-3, 1], [0, 1], [0, 0], [3, 0]], css('--ink-3'), 2);
+    const labelAt = { linear: [-1.75, 4.3, 'left'], perceptron: [-2.3, 1.72, 'left'], svm: [-2.95, 4.25, 'left'], logistic: [2.95, 0.32, 'right'] };
+    const short = { linear: 'linear regression', perceptron: 'perceptron', svm: 'SVM', logistic: 'logistic' };
+    KEYS.forEach((k) => {
+      const pts = []; for (let i = 0; i <= 240; i++) { const v = -3 + i * 0.025; pts.push([v, ML.LOSSES[k].loss(v)]); }
+      lPlot.line(pts, css(ML.LOSSES[k].colour), 2.5);
+    });
+    KEYS.forEach((k) => lPlot.clip(() => lPlot.label(short[k], labelAt[k][0], labelAt[k][1], css(ML.LOSSES[k].colour), labelAt[k][2])));
+    lPlot.line([[m, -0.2], [m, 4.6]], css('--ink-3'), 1, [4, 4]);
+    lPlot.clip(() => KEYS.forEach((k) => lPlot.dot(m, ML.LOSSES[k].loss(m), css(ML.LOSSES[k].colour), 5.5, css('--panel'))));
+    document.querySelector('#l-table tbody').innerHTML = KEYS.map((k) => '<tr><td><span class="sw" style="background:var(' + ML.LOSSES[k].colour + ')"></span>' + ML.LOSSES[k].name + '</td><td>' + ML.LOSSES[k].formula + '</td><td>' + f2(ML.LOSSES[k].loss(m)) + '</td><td>' + f2(ML.LOSSES[k].slope(m)) + '</td></tr>').join('');
+    document.getElementById('l-note').textContent = m < 0 ? 'm < 0: the flower is misclassified. All four slopes are negative, so all four losses push w to raise this margin.'
+      : m < 1 ? '0 ≤ m < 1: correct, but inside the margin band. The perceptron has stopped pushing (slope 0); the three others still raise the margin.'
+        : 'm ≥ 1: correct and outside the band. Perceptron and SVM: slope 0. Logistic: a small negative slope. Linear regression: a positive slope, it pulls this margin back towards 1.';
+  }
+  lPlot.pointer(null, null, (x) => { lM.value = Math.max(-3, Math.min(3, Math.round(x * 20) / 20)); lM.dispatchEvent(new Event('input')); });
+
+  // ------------------------------------------------------------------ Demo 3
+  const WL = 4.5;
+  const dMap = new Plot(document.getElementById('d-map'), { xmin: -WL, xmax: WL, ymin: -WL, ymax: WL, xlabel: 'w₀', ylabel: 'w₁' });
+  const dData = new Plot(document.getElementById('d-data'), { xmin: -LIM, xmax: LIM, ymin: -LIM, ymax: LIM, xlabel: 'x₀ : petal length (standardised)', ylabel: 'x₁ : petal width (standardised)' });
+  const dTip = document.getElementById('d-tip');
+  const dT = document.getElementById('d-t');
+  let path = [], grid = null, timer = null;
+  const settings = () => ({ key: document.getElementById('d-loss').value, eta: +document.getElementById('d-eta').value, lam: +document.getElementById('d-lam').value });
+  function recompute() {
+    const s = settings();
+    path = ML.descend(s.key, [-3, 3], X2, Y, s.lam, s.eta, 100);
+    const n = 90; let lo = Infinity, hi = -Infinity; const v = new Float64Array(n * n);
+    for (let j = 0; j < n; j++) for (let i = 0; i < n; i++) {
+      const val = ML.objective(s.key, [-WL + (i + 0.5) / n * 2 * WL, WL - (j + 0.5) / n * 2 * WL], X2, Y, s.lam);
+      v[j * n + i] = val; lo = Math.min(lo, val); hi = Math.max(hi, val);
+    }
+    grid = { n, v, lo, hi };
+    descent();
+  }
+  function descent() {
+    const s = settings(), t = +dT.value, w = path[t];
+    const ok = (q) => Number.isFinite(q[0]) && Number.isFinite(q[1]);
+    dMap.clear();
+    // sequential, single hue: light = high, dark = low, in 12 bands so that level lines can be read
+    const base = hex(css('--blue')), g = grid;
+    dMap.field(g.n, (x, y) => {
+      const i = Math.min(g.n - 1, Math.floor((x + WL) / (2 * WL) * g.n)), j = Math.min(g.n - 1, Math.floor((WL - y) / (2 * WL) * g.n));
+      const u = Math.sqrt((g.v[j * g.n + i] - g.lo) / (g.hi - g.lo + 1e-12));
+      return [base[0], base[1], base[2], Math.round(20 + 200 * (1 - Math.ceil(u * 12) / 12))];
+    });
+    dMap.axes();
+    const shown = path.slice(0, t + 1).filter(ok);
+    dMap.line(shown, css('--ink'), 2);
+    dMap.clip(() => {
+      shown.forEach((q) => dMap.dot(q[0], q[1], css('--ink'), 2.5));
+      const gq = dMap.g; gq.fillStyle = css('--ink'); gq.fillRect(dMap.sx(-3) - 5, dMap.sy(3) - 5, 10, 10);
+      if (ok(w)) dMap.dot(w[0], w[1], css('--red'), 6, css('--panel'));
+    });
+    dData.clear();
+    if (ok(w)) drawFlowers(dData, [w[0], w[1], 0], true); else dData.axes();
+    const L = ok(w) ? ML.objective(s.key, w, X2, Y, s.lam) : Infinity;
+    document.getElementById('d-L').textContent = Number.isFinite(L) && L < 1e6 ? f2(L) : 'diverged';
+    document.getElementById('d-E').textContent = ok(w) ? ML.errors([w[0], w[1]], X2, Y) : '–';
+    document.getElementById('d-W').textContent = ok(w) && Math.abs(w[0]) < 1e6 ? '(' + f2(w[0]) + ', ' + f2(w[1]) + ')' : 'off the map';
+  }
+  const stop = () => { clearInterval(timer); timer = null; document.getElementById('d-play').textContent = 'Play'; };
+  bindRange('d-eta', () => { stop(); recompute(); }, f2);
+  bindRange('d-lam', () => { stop(); recompute(); }, f2);
+  bindRange('d-t', descent);
+  document.getElementById('d-loss').addEventListener('change', () => { stop(); recompute(); });
+  document.getElementById('d-reset').addEventListener('click', () => { stop(); dT.value = 0; dT.dispatchEvent(new Event('input')); });
+  document.getElementById('d-play').addEventListener('click', () => {
+    if (timer) return stop();
+    if (+dT.value >= 100) dT.value = 0;
+    document.getElementById('d-play').textContent = 'Pause';
+    timer = setInterval(() => { dT.value = +dT.value + 1; dT.dispatchEvent(new Event('input')); if (+dT.value >= 100) stop(); }, 110);
+  });
+  dMap.pointer((x, y, px, py) => {
+    if (Math.abs(x) > WL || Math.abs(y) > WL) return tip(dTip, null);
+    const s = settings();
+    tip(dTip, 'w = (' + f2(x) + ', ' + f2(y) + ')<br>L(w) = ' + f2(ML.objective(s.key, [x, y], X2, Y, s.lam)), px, py);
+  }, () => tip(dTip, null));
+
+  function all() { boundary(); losses(); recompute(); }
+  all();
+  let rz; window.addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(all, 120); });
+  matchMedia('(prefers-color-scheme: dark)').addEventListener('change', all);
+})();
+</script>
+</body>
+</html>

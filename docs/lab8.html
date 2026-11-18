@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PyTorch and backpropagation: interactive demos</title>
+<meta name="description" content="Interactive companions to the PyTorch lab of IFT3395/IFT6390 (Université de Montréal): backpropagation by hand on a four-weight network, and why a network needs a non-linearity.">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header class="top"><nav>
+  <a class="brand" href="index.html">IFT3395 / IFT6390 · Teaching portfolio</a>
+  <a href="lab4.html">Linear classifiers</a>
+  <a href="lab8.html" aria-current="page">PyTorch and backpropagation</a>
+  <a href="https://github.com/yanis-bencheikh/ML_Course_Bencheikh_Mila_UdeM_ift6390">GitHub</a>
+</nav></header>
+<main>
+  <div class="kicker">Lab 8 · 17 November 2026</div>
+  <h1>PyTorch and backpropagation</h1>
+  <p class="lede">The lab opens with backpropagation done by hand, without any library, on the smallest network that has a hidden layer. PyTorch only arrives afterwards, on the same network and the same numbers.</p>
+
+  <section class="demo" id="backprop">
+    <div class="kicker">Demo 1</div>
+    <h2>Backpropagation by hand, on four weights</h2>
+    <p>One input x, two hidden neurons with ReLU, one output ŷ, and the loss L = (ŷ − y)². Blue values are computed left to right (the forward pass). Orange values are the gradients, computed right to left by the chain rule (the backward pass).</p>
+    <div class="predict"><b>Predict first.</b> With the starting values, ∂L/∂w₁ = 16. Lower w₁ below 0. What happens to ∂L/∂w₁, and why can gradient descent no longer repair this weight?</div>
+    <div class="controls">
+      <div class="control"><label for="n-w1">w₁ <output for="n-w1"></output></label><input id="n-w1" type="range" min="-2" max="2" step="0.05" value="1"></div>
+      <div class="control"><label for="n-w2">w₂ <output for="n-w2"></output></label><input id="n-w2" type="range" min="-2" max="2" step="0.05" value="0.5"></div>
+      <div class="control"><label for="n-v1">v₁ <output for="n-v1"></output></label><input id="n-v1" type="range" min="-3" max="3" step="0.05" value="2"></div>
+      <div class="control"><label for="n-v2">v₂ <output for="n-v2"></output></label><input id="n-v2" type="range" min="-3" max="3" step="0.05" value="1"></div>
+      <div class="control"><label for="n-x">Input x <output for="n-x"></output></label><input id="n-x" type="range" min="-3" max="3" step="0.1" value="2"></div>
+      <div class="control"><label for="n-y">Target y <output for="n-y"></output></label><input id="n-y" type="range" min="-5" max="8" step="0.1" value="3"></div>
+    </div>
+    <div class="buttons">
+      <button class="primary" id="n-step">One step of gradient descent (η = 0.01)</button>
+      <button id="n-reset">Reset to the values of the lab</button>
+      <span id="n-count" style="color:var(--ink-3);font-size:15px"></span>
+    </div>
+    <div class="stage" style="grid-template-columns:minmax(320px,1.25fr) minmax(300px,1fr)">
+      <figure>
+        <svg class="net" id="n-svg" viewBox="0 0 640 360" role="img" aria-label="Diagram of the network with forward values and gradients"></svg>
+        <figcaption>A dashed neuron is inactive: its pre-activation z is negative, ReLU outputs 0 and its local slope is 0.</figcaption>
+      </figure>
+      <div>
+        <div class="stat-row">
+          <div class="stat"><div class="v" id="n-out">5</div><div class="k">output ŷ</div></div>
+          <div class="stat"><div class="v" id="n-L">4</div><div class="k">loss L = (ŷ − y)²</div></div>
+        </div>
+        <table class="read" id="n-table">
+          <thead><tr><th>Backward step</th><th>Chain rule</th><th>Value</th></tr></thead>
+          <tbody></tbody>
+        </table>
+        <p id="n-check" style="color:var(--ink-2);font-size:15px;margin:12px 0 0"></p>
+      </div>
+    </div>
+    <details class="answer"><summary>Compare with the answer</summary>
+      <p>As soon as w₁ is negative (with x = 2), z₁ = w₁·x is negative, ReLU outputs h₁ = 0 and its local slope is 0. The chain for w₁ contains that 0, so ∂L/∂w₁ = 0 and ∂L/∂v₁ = 0: the update w₁ ← w₁ − η·0 leaves the weight where it is. In PyTorch the same thing appears as a <code>.grad</code> equal to 0 after <code>backward()</code>.</p>
+    </details>
+  </section>
+
+  <section class="demo" id="xor">
+    <div class="kicker">Demo 2</div>
+    <h2>Why a network needs a non-linearity</h2>
+    <p>240 points in four clusters, the XOR layout: no straight line separates red from blue. The network has 2 inputs, one hidden layer and 1 output, and is trained in your browser, with the backward pass written by hand in about thirty lines of JavaScript.</p>
+    <div class="predict"><b>Predict first.</b> Without an activation, the network still has 8 hidden neurons and 33 parameters. Will training it for longer, or making it wider, let it separate the clusters?</div>
+    <div class="controls">
+      <div class="control"><label for="x-act">Activation of the hidden layer</label><select id="x-act"><option value="relu">ReLU</option><option value="none">None</option></select></div>
+      <div class="control"><label for="x-h">Hidden neurons <output for="x-h"></output></label><input id="x-h" type="range" min="1" max="16" step="1" value="8"></div>
+      <div class="control"><label for="x-lr">Learning rate <output for="x-lr"></output></label><input id="x-lr" type="range" min="0.005" max="0.2" step="0.005" value="0.05"></div>
+    </div>
+    <div class="buttons"><button class="primary" id="x-train">Train</button><button id="x-reset">New network</button></div>
+    <div class="stage">
+      <figure>
+        <canvas class="plot" id="x-plot" role="img" aria-label="Decision regions of the network on the XOR data"></canvas>
+        <div class="tip" id="x-tip"></div>
+        <div class="legend">
+          <span><span class="sw" style="background:var(--blue)"></span>class 1, and the region where the output is above 0.5</span>
+          <span><span class="sw" style="background:var(--red)"></span>class 0</span>
+        </div>
+        <figcaption>Dotted line: output = 0.5, the decision boundary. Hover to read the output of the network.</figcaption>
+      </figure>
+      <div>
+        <div class="stat-row">
+          <div class="stat"><div class="v" id="x-epoch">0</div><div class="k">epoch</div></div>
+          <div class="stat"><div class="v" id="x-acc">–</div><div class="k">accuracy</div></div>
+          <div class="stat"><div class="v" id="x-params">33</div><div class="k">parameters</div></div>
+        </div>
+        <figure>
+          <canvas class="plot wide" id="x-loss" role="img" aria-label="Training loss per epoch"></canvas>
+          <figcaption>Mean squared error on the 240 points, one value per epoch.</figcaption>
+        </figure>
+      </div>
+    </div>
+    <details class="answer"><summary>Compare with the answer</summary>
+      <p>No. Without an activation, the hidden layer computes W x + b and the output computes v·(W x + b) + c, which is again of the form a·x + d: a single line, however many neurons or epochs. The boundary stays straight and accuracy stays near 50 %. With ReLU each hidden neuron contributes one bend, and a few bends are enough for XOR. One hidden neuron with ReLU is not enough: try it.</p>
+    </details>
+  </section>
+</main>
+<footer>Yanis Bencheikh · Mila and Université de Montréal · IFT3395 / IFT6390, Fall 2026.</footer>
+
+<script src="assets/ml.js"></script>
+<script src="assets/plot.js"></script>
+<script>
+(function () {
+  const { Plot, css, hex, bindRange, tip } = Viz;
+  const f2 = (v) => { const r = Math.round(v * 100) / 100; return (Object.is(r, -0) ? 0 : r).toFixed(2).replace(/\.?0+$/, '').replace('-', '−'); };
+
+  // ------------------------------------------------------------------ Demo 1: the four-weight network
+  const ids = ['n-w1', 'n-w2', 'n-v1', 'n-v2', 'n-x', 'n-y'];
+  const DEFAULTS = { 'n-w1': 1, 'n-w2': 0.5, 'n-v1': 2, 'n-v2': 1, 'n-x': 2, 'n-y': 3 };
+  const el = (id) => document.getElementById(id);
+  // exact values after gradient steps (the sliders only show rounded positions)
+  let state = null, steps = 0;
+  const read = () => ({ x: +el('n-x').value, y: +el('n-y').value, w: [+el('n-w1').value, +el('n-w2').value], v: [+el('n-v1').value, +el('n-v2').value] });
+
+  function svgNet(p, r) {
+    const N = { x: [70, 180], h1: [290, 90], h2: [290, 270], o: [480, 180], L: [590, 180] };
+    const node = (c, cls, top, bottom) => '<circle class="node ' + cls + '" cx="' + c[0] + '" cy="' + c[1] + '" r="34"/>' +
+      '<text x="' + c[0] + '" y="' + (c[1] - 4) + '" text-anchor="middle" font-size="13" class="muted">' + top + '</text>' +
+      '<text x="' + c[0] + '" y="' + (c[1] + 15) + '" text-anchor="middle" font-size="17" font-weight="700">' + bottom + '</text>';
+    const edge = (a, b, name, val, grad, up) => {
+      const mx = (a[0] + b[0]) / 2, my = (a[1] + b[1]) / 2, dy = up ? -14 : 24;
+      return '<line class="edge" x1="' + (a[0] + 34) + '" y1="' + a[1] + '" x2="' + (b[0] - 34) + '" y2="' + b[1] + '"/>' +
+        '<text x="' + mx + '" y="' + (my + dy) + '" text-anchor="middle" font-size="15">' + name + ' = ' + f2(val) + '</text>' +
+        '<text x="' + mx + '" y="' + (my + dy + (up ? -19 : 19)) + '" text-anchor="middle" font-size="14" class="grad">∂L/∂' + name + ' = ' + f2(grad) + '</text>';
+    };
+    return edge(N.x, N.h1, 'w₁', p.w[0], r.dW[0], true) + edge(N.x, N.h2, 'w₂', p.w[1], r.dW[1], false) +
+      edge(N.h1, N.o, 'v₁', p.v[0], r.dV[0], true) + edge(N.h2, N.o, 'v₂', p.v[1], r.dV[1], false) +
+      '<line class="edge" x1="514" y1="180" x2="556" y2="180"/>' +
+      node(N.x, '', 'input x', f2(p.x)) +
+      node(N.h1, r.z[0] > 0 ? '' : 'dead', 'h₁', f2(r.h[0])) + node(N.h2, r.z[1] > 0 ? '' : 'dead', 'h₂', f2(r.h[1])) +
+      node(N.o, '', 'output ŷ', f2(r.out)) + node(N.L, 'loss', 'loss L', f2(r.L)) +
+      '<text x="290" y="42" text-anchor="middle" font-size="13" class="muted">z₁ = w₁·x = ' + f2(r.z[0]) + ', h₁ = ReLU(z₁)</text>' +
+      '<text x="290" y="326" text-anchor="middle" font-size="13" class="muted">z₂ = w₂·x = ' + f2(r.z[1]) + ', h₂ = ReLU(z₂)</text>' +
+      '<text x="535" y="238" text-anchor="middle" font-size="13" class="muted">target y = ' + f2(p.y) + '</text>' +
+      '<text x="480" y="128" text-anchor="middle" font-size="14" class="grad">∂L/∂ŷ = ' + f2(r.dOut) + '</text>';
+  }
+
+  function net() {
+    const p = state || read(), r = ML.tinyNet(p);
+    el('n-svg').innerHTML = svgNet(p, r);
+    el('n-out').textContent = f2(r.out); el('n-L').textContent = f2(r.L);
+    const slope = (i) => (r.z[i] > 0 ? 1 : 0);
+    const rows = [
+      ['1. ∂L/∂ŷ', '2 (ŷ − y) = 2 × (' + f2(r.out) + ' − ' + f2(p.y) + ')', f2(r.dOut)],
+      ['2. ∂L/∂v₁, ∂L/∂v₂', '∂L/∂ŷ × hᵢ = ' + f2(r.dOut) + ' × ' + f2(r.h[0]) + ', ' + f2(r.dOut) + ' × ' + f2(r.h[1]), f2(r.dV[0]) + ', ' + f2(r.dV[1])],
+      ['3. ∂L/∂h₁, ∂L/∂h₂', '∂L/∂ŷ × vᵢ = ' + f2(r.dOut) + ' × ' + f2(p.v[0]) + ', ' + f2(r.dOut) + ' × ' + f2(p.v[1]), f2(r.dH[0]) + ', ' + f2(r.dH[1])],
+      ['4. ∂L/∂z₁, ∂L/∂z₂', '∂L/∂hᵢ × slope of ReLU = ' + f2(r.dH[0]) + ' × ' + slope(0) + ', ' + f2(r.dH[1]) + ' × ' + slope(1), f2(r.dZ[0]) + ', ' + f2(r.dZ[1])],
+      ['5. ∂L/∂w₁, ∂L/∂w₂', '∂L/∂zᵢ × x = ' + f2(r.dZ[0]) + ' × ' + f2(p.x) + ', ' + f2(r.dZ[1]) + ' × ' + f2(p.x), f2(r.dW[0]) + ', ' + f2(r.dW[1])],
+    ];
+    document.querySelector('#n-table tbody').innerHTML = rows.map((q) => '<tr><td>' + q[0] + '</td><td style="text-align:left">' + q[1] + '</td><td class="grad" style="color:var(--orange);font-weight:700">' + q[2] + '</td></tr>').join('');
+    const bumped = ML.tinyNet({ x: p.x, y: p.y, w: [p.w[0] + 0.001, p.w[1]], v: p.v });
+    el('n-check').textContent = 'Check without calculus: raise w₁ by 0.001 and the loss changes by ' + f2((bumped.L - r.L) * 1000) + ' thousandths, a ratio of ' + f2((bumped.L - r.L) / 0.001) + ', against ∂L/∂w₁ = ' + f2(r.dW[0]) + ' from the chain rule.';
+    el('n-count').textContent = steps ? steps + (steps === 1 ? ' step taken' : ' steps taken') : '';
+  }
+  ids.forEach((id) => bindRange(id, () => { state = null; steps = 0; net(); }, f2));
+  const show = (p) => {
+    [['n-w1', p.w[0]], ['n-w2', p.w[1]], ['n-v1', p.v[0]], ['n-v2', p.v[1]], ['n-x', p.x], ['n-y', p.y]].forEach(([id, v]) => {
+      el(id).value = v; document.querySelector('output[for="' + id + '"]').textContent = f2(v);
+    });
+  };
+  el('n-step').addEventListener('click', () => {
+    const p = state || read(), r = ML.tinyNet(p);
+    state = { x: p.x, y: p.y, w: p.w.map((v, i) => v - 0.01 * r.dW[i]), v: p.v.map((v, i) => v - 0.01 * r.dV[i]) };
+    steps++; show(state); net();
+  });
+  el('n-reset').addEventListener('click', () => { state = null; steps = 0; show({ w: [1, 0.5], v: [2, 1], x: 2, y: 3 }); net(); });
+
+  // ------------------------------------------------------------------ Demo 2: XOR
+  const data = ML.xorData(240, 7);
+  const xPlot = new Plot(el('x-plot'), { xmin: -0.5, xmax: 1.5, ymin: -0.5, ymax: 1.5, xlabel: 'x₀', ylabel: 'x₁', xticks: 4, yticks: 4 });
+  const xLoss = new Plot(el('x-loss'), { xmin: 0, xmax: 600, ymin: 0, ymax: 0.6, xlabel: 'epoch', ylabel: 'mean squared error', yticks: 4 });
+  const xTip = el('x-tip');
+  const EPOCHS = 600;
+  let mlp, history, raf = null, seed = 3;
+  function fresh() {
+    cancelAnimationFrame(raf); raf = null; el('x-train').textContent = 'Train';
+    const H = +el('x-h').value;
+    mlp = new ML.Mlp(H, el('x-act').value === 'relu', seed);
+    history = [mlp.evaluate(data.X, data.y).loss];
+    el('x-params').textContent = 4 * H + 1;
+    xor();
+  }
+  function xor() {
+    const blue = hex(css('--blue')), red = hex(css('--red'));
+    xPlot.clear();
+    // diverging: two hues around a neutral midpoint at output = 0.5
+    xPlot.field(110, (x, y) => { const o = mlp.forward(x, y), c = o > 0.5 ? blue : red; return [c[0], c[1], c[2], Math.round(Math.min(1, Math.abs(o - 0.5) * 2) * 70)]; });
+    xPlot.axes();
+    // boundary output = 0.5, traced by scanning the grid for sign changes
+    xPlot.clip((g) => {
+      const n = 110, v = new Float64Array((n + 1) * (n + 1));
+      for (let j = 0; j <= n; j++) for (let i = 0; i <= n; i++) v[j * (n + 1) + i] = mlp.forward(-0.5 + 2 * i / n, -0.5 + 2 * j / n) - 0.5;
+      g.fillStyle = css('--ink');
+      for (let j = 0; j < n; j++) for (let i = 0; i < n; i++) {
+        const a = v[j * (n + 1) + i];
+        if (a * v[j * (n + 1) + i + 1] < 0 || a * v[(j + 1) * (n + 1) + i] < 0) g.fillRect(xPlot.sx(-0.5 + 2 * (i + 0.5) / n) - 1.2, xPlot.sy(-0.5 + 2 * (j + 0.5) / n) - 1.2, 2.4, 2.4);
+      }
+      for (let i = 0; i < data.y.length; i++) xPlot.dot(data.X[i][0], data.X[i][1], css(data.y[i] ? '--blue' : '--red'), 3.5, css('--panel'));
+    });
+    xLoss.o.ymax = Math.max(0.3, Math.min(2, Math.max.apply(null, history) * 1.1));
+    xLoss.clear(); xLoss.axes();
+    xLoss.line(history.map((l, t) => [t, l]), css('--ink'), 2);
+    if (history.length > 1) xLoss.dot(history.length - 1, history[history.length - 1], css('--ink'), 4, css('--panel'));
+    el('x-epoch').textContent = history.length - 1;
+    el('x-acc').textContent = Math.round(mlp.evaluate(data.X, data.y).accuracy * 100) + ' %';
+  }
+  function loop() {
+    const lr = +el('x-lr').value;
+    for (let k = 0; k < 6 && history.length <= EPOCHS; k++) { mlp.step(data.X, data.y, lr); history.push(mlp.evaluate(data.X, data.y).loss); }
+    xor();
+    if (history.length <= EPOCHS) raf = requestAnimationFrame(loop); else { raf = null; el('x-train').textContent = 'Train'; }
+  }
+  el('x-train').addEventListener('click', () => {
+    if (raf) { cancelAnimationFrame(raf); raf = null; el('x-train').textContent = 'Train'; return; }
+    if (history.length > EPOCHS) fresh();
+    el('x-train').textContent = 'Pause'; raf = requestAnimationFrame(loop);
+  });
+  el('x-reset').addEventListener('click', () => { seed++; fresh(); });
+  el('x-act').addEventListener('change', fresh);
+  bindRange('x-h', fresh);
+  bindRange('x-lr', () => {}, (v) => v.toFixed(3));
+  xPlot.pointer((x, y, px, py) => {
+    if (x < -0.5 || x > 1.5 || y < -0.5 || y > 1.5) return tip(xTip, null);
+    const o = mlp.forward(x, y);
+    tip(xTip, 'x = (' + f2(x) + ', ' + f2(y) + ')<br>output ' + f2(o) + ' → class ' + (o > 0.5 ? 1 : 0), px, py);
+  }, () => tip(xTip, null));
+
+  net(); fresh();
+  let rz; window.addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(() => { net(); xor(); }, 120); });
+  matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => { net(); xor(); });
+})();
+</script>
+</body>
+</html>
